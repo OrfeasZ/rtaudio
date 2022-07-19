@@ -7240,7 +7240,11 @@ RtAudioErrorType RtApiDs :: stopStream()
   timeEndPeriod( 1 ); // revert to normal scheduler frequency on lesser windows.
   MUTEX_UNLOCK( &stream_.mutex );
 
-  if ( FAILED( result ) ) error( RTAUDIO_SYSTEM_ERROR );
+  if ( FAILED( result ) ) {
+  	stream_.state = STREAM_CLOSED;
+  	error( RTAUDIO_SYSTEM_ERROR );
+  }
+
   return RTAUDIO_NO_ERROR;
 }
 
